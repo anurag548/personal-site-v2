@@ -40,7 +40,7 @@ export default function Introduction() {
             </div>
          
             <motion.div initial={{ opacity:0, y: 100 }} animate={{ opacity: 1, y: 0 }}  className="mb-10 mt-8 px-4 text-base text-center font-medium !leading-[1.5] sm:text-3xl" dangerouslySetInnerHTML={{ __html: personalData.selfDescription }}>
-                    
+                
             </motion.div>
             <motion.div  className="flex flex-col sm:flex-row items-center justify-center gap-2 px-4 text-lg font-medium"
             initial={{ opacity: 0, y: 100 }}
