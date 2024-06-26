@@ -3,15 +3,16 @@
 import SectionHeading from '@components/section-heading';
 import { useSectionInView } from '@lib/hooks'
 import React from 'react'
-import { ContactAltDivider } from './widgets';
+import { ContactAltDivider, SubmitButton } from './widgets';
 import { FaPaperPlane } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { sendEmail } from '../../actions/send-email';
 
 export default function Contact() {
     const {ref} = useSectionInView('Contact');
 
   return (
-    <motion.section 
+    <motion.section
         id='contact'
         ref={ref}
         initial={{
@@ -33,10 +34,30 @@ export default function Contact() {
             </p>
             
          <ContactAltDivider />
-         <form className="mt-10 flex flex-col dark:text-black">
-            <input type='email' className="h-14 px-4 rounded-lg borderBlack dark:bg-white dark:bg-opacity-80 dark:focus:bg-opacity-100 transition-all dark:outline-none" placeholder='Your Email'/>
-            <textarea name="" id="" className="h-52 my-3 rounded-lg borderBlack p-4 dark:bg-white dark:bg-opacity-80 dark:focus:bg-opacity-100 transition-all dark:outline-none" placeholder='Your Message'/>
-            <button type='submit'>Submit <FaPaperPlane/></button>
+         <form 
+            className="mt-10 flex flex-col dark:text-black"
+            action={
+              async (formData)=> {
+                console.log(formData)
+                // await sendEmail(formData)
+              }
+            }
+         >
+            <input
+              type='email' 
+              className="h-14 px-4 rounded-lg borderBlack dark:bg-white dark:bg-opacity-80 dark:focus:bg-opacity-100 transition-all dark:outline-none" 
+              placeholder='Your Email'
+              required
+              name='senderEmail'
+              />
+            <textarea 
+              name="message" 
+              id="" 
+              className="h-52 my-3 rounded-lg borderBlack p-4 dark:bg-white dark:bg-opacity-80 dark:focus:bg-opacity-100 transition-all dark:outline-none" 
+              placeholder='Your Message'
+              required
+              />
+            <SubmitButton/>
          </form>
     </motion.section>
   )
