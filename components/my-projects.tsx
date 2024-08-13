@@ -14,8 +14,8 @@ export default function MyProjects() {
             {
                 projectsData.map((project, index) => (
                     <React.Fragment key={index}>
-            <ProjectTile {...project} />
-          </React.Fragment>
+                      <ProjectTile {...project} />
+                    </React.Fragment>
                 ))
             }
         </div>
