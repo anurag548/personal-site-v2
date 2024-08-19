@@ -53,26 +53,18 @@ export const experiencesData = [
     },
   ] as const;
   
-export const personalData = {
-    name: "Anurag Salian",
-    selfDescription: "<p>I'm a <strong> full-stack developer </strong> with 2 years of experience. I'm currently working as a freelancer. I'm open to full-time opportunities.</p>",
-    resume: "",
-    about:"<p>I'm a software developer with 2 years of experience building beautiful and functional mobile applications using Flutter. I'm proficient in creating intuitive user interfaces, implementing core functionalities, and optimizing app performance. Additionally, I have 6 months of experience working with Spring on personal projects, which allows me to understand backend development concepts and integrations.</p>    <h2>Strengths in Flutter Development:</h2>    <ul>      <li>Building responsive and user-friendly UIs</li>      <li>Implementing features with clean and maintainable code</li>      <li>Integrating with various APIs and services</li>      <li>State management with providers like Provider or BLoC</li>    </ul><h2>Experience:</h2><ul><li>Led the development of several Flutter projects (e.g., e-commerce app, social media app).</li><li>Contributed to building core functionalities and user interfaces for (mention a major project you've worked on).</li><li>Developed personal projects using Spring to gain backend development knowledge (e.g., simple REST API).</li></ul><p>I'm a quick learner, eager to expand my skillset, and passionate about creating innovative mobile experiences. I'm always looking for new challenges and opportunities to contribute to a collaborative and fast-paced development environment.</p>",
-    socials: [
-      {
-        name: "GitHub",
-        url: ""
-      },
-      {
-        name: "LinkedIn",
-        url: ""
-      },
-      {
-        name: "Discord",
-        url: ""
-      },
-    ]
+export type PersonalData = {
+    name: string;
+    selfDescription: string;
+    resume: string;
+    about:string;
+    // socials: Array<Socials>;
     
+}
+
+export type Socials = {
+  name: string,
+  url: string
 }
 
   export const projectsData = [

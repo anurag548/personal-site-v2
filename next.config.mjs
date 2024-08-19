@@ -2,7 +2,20 @@
 const nextConfig = {
     // reactStrictMode: true,
     images: {
-        domains: ['plus.unsplash.com','via.placeholder.com','www.git-scm.com'],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'via.placeholder.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'www.git-scm.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'plus.unsplash.com',
+            }
+        ]
     },
     // async headers() {
     //     return [
@@ -12,6 +25,14 @@ const nextConfig = {
     //     },
     //     ];
     // },
+    async rewrites(){
+        return [
+            {
+                source: '/api/:path*',
+                destination: 'http://localhost:3000/api/:path*',
+            },
+        ]
+    }
 };
 
 export default nextConfig;
