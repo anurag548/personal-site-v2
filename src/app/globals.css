@@ -2,30 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 3, 7, 18;
-  --background-color: 243, 244, 246;
+
+html {
+  scroll-behavior: smooth;
+  --line-color: #e5e7eb;
+}
+
+.borderBlack {
+  @apply border border-black/10;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 249, 250, 251;
-    --background-color: 3, 7, 18;
+  .vertical-timeline-element-content {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
   }
-}
-
-html{
-  scroll-behavior: smooth;
-}
-
-
-@layer base{
-  body {
-    color: rgb(var(--foreground-rgb));
-    background: rgb(var(--background-color));
+  .vertical-timeline-element-content-arrow {
+    border-right-color: rgba(255, 255, 255, 0.5) !important;
   }
-}
-
-.borderBlack  {
-  @apply border-black border;
+  .vertical-timeline-element-icon {
+    background-color: #111827 !important;
+  }
 }

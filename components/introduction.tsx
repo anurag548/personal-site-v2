@@ -1,8 +1,9 @@
 "use client";
 
-import { apiKey, apiUrl } from "@config";
 import { PersonalData } from "@lib/data";
 import { useSectionInView } from "@lib/hooks";
+import { fetchPersonalInfo } from "@lib/api";
+import { usePersonalDataStore } from "@lib/store";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,85 +12,88 @@ import { BsArrowRight } from "react-icons/bs";
 import { FaGithubSquare, FaLinkedin } from "react-icons/fa";
 import { HiDownload } from "react-icons/hi";
 
-async function fetchPersonalInfo() {
-    const response = await fetch(`${apiUrl}/api/v1/personal-information/get`,{
-        method: 'GET',
-        headers: {
-            // "Content-Type": "application/json",
-            "x-api-key": `${apiKey}` 
-        }
-    },);
 
-    const data: PersonalData = await response.json();
 
-    return data;
-}
+export default function Introduction() {
+    const { ref } = useSectionInView("Home", 0.5);
+    const personalData = usePersonalDataStore((state) => {
 
-export default  function Introduction() {
-    const {ref} = useSectionInView("Home", 0.5);
-    // const res = await fetch(');
-    const [personalData, setPersonalData] = useState<PersonalData | null>(null);
+        return state.personalData
+    });
+    const setPersonalData = usePersonalDataStore((state) => state.setPersonalData);
 
-    const [loading, setLoading] = useState(true);
+
     const fetchPersonalData = async () => {
-        try {
-            setLoading(true);
-            const data = await fetchPersonalInfo();
-            if(!data) return;
-            setPersonalData(data);   
-        } catch (error) {
-            console.error(error);
-        } finally{
-            setLoading(false);
-        }
+        // try {
+        //     await ;
+        // } catch (error) {
+        //     console.error(error);
+        // } finally {
+        //     setLoading(false);
+        // }
     }
 
     useEffect(() => {
-        fetchPersonalData();
+        setPersonalData();
     }, []);
-    
-    return loading ? <div> Loading... </div> : (
+
+    return personalData === null ? (
+        <section id="home" className="mb-28 max-w-[50rem] text-center sm:mb-0 scroll-mt-[100rem] animate-pulse">
+            <div className="flex items-center justify-center">
+                <div className="h-24 w-24 rounded-full bg-gray-200 dark:bg-gray-700 border-[0.25rem] border-white shadow-xl"></div>
+            </div>
+            <div className="mb-10 mt-8 px-4 flex flex-col items-center justify-center gap-4">
+                <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+                <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+            </div>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 px-4">
+                <div className="h-12 w-40 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+                <div className="h-14 w-40 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+                <div className="h-14 w-14 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+                <div className="h-14 w-14 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+            </div>
+        </section>
+    ) : (
         <section ref={ref} id="home" className="mb-28 max-w-[50rem] text-center sm:mb-0 scroll-mt-[100rem]">
             <div className="flex items-center justify-center">
                 <div className="relative">
                     <motion.div
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ type:"tween" ,duration: 0.3, }}
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ type: "tween", duration: 0.3, }}
                     >
 
-                    <Image src="https://plus.unsplash.com/premium_photo-1714226830926-1af8bf7b06c3?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8"
-                    width={192}
-                    height={192}
-                    alt="Profile Picture"
-                    className="h-24 w-24 rounded-full border-[0.25rem] border-white shadow-xl"
-                    />
+                        <Image src="https://plus.unsplash.com/premium_photo-1714226830926-1af8bf7b06c3?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8"
+                            width={192}
+                            height={192}
+                            alt="Profile Picture"
+                            className="h-24 w-24 rounded-full border-[0.25rem] border-white shadow-xl"
+                        />
                     </motion.div>
                     <motion.span className="absolute bottom-0 right-0 text-4xl"
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 0.7 }}
-                    transition={{ type:"spring" , stiffness: 260, damping: 20,}}
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 0.7 }}
+                        transition={{ type: "spring", stiffness: 260, damping: 20, }}
                     >
                         👋
                     </motion.span>
                 </div>
-                
+
             </div>
-         
-            {personalData && <motion.div initial={{ opacity:0, y: 100 }} animate={{ opacity: 1, y: 0 }}  className="mb-10 mt-8 px-4 text-base text-center font-medium !leading-[1.5] sm:text-3xl" dangerouslySetInnerHTML={{ __html: personalData.selfDescription }}>
-                
+
+            {personalData && <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} className="mb-10 mt-8 px-4 text-base text-center font-medium !leading-[1.5] sm:text-3xl" dangerouslySetInnerHTML={{ __html: personalData.selfDescription }}>
             </motion.div>}
-            <motion.div  className="flex flex-col sm:flex-row items-center justify-center gap-2 px-4 text-lg font-medium"
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
+            <motion.div className="flex flex-col sm:flex-row items-center justify-center gap-2 px-4 text-lg font-medium"
+                initial={{ opacity: 0, y: 100 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
 
             >
-                 <Link  href="#contact" className="group bg-gray-900 text-white px-7 py-3 flex items-center gap-2 rounded-full outline-none focus:scale-110 hover:scale-110 hover:bg-gray-950 active:scale-105 transition"> Contact me here <BsArrowRight/>
+                <Link href="#contact" className="group bg-gray-900 text-white px-7 py-3 flex items-center gap-2 rounded-full outline-none focus:scale-110 hover:scale-110 hover:bg-gray-950 active:scale-105 transition"> Contact me here <BsArrowRight />
                 </Link>
-                {personalData?.resume && <Link href={personalData.resume} className="bg-white p-4 text-gray-700 hover:text-gray-950 flex items-center gap-2 rounded-full focus:scale-[1.15] hover:scale-[1.15] active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10 dark:text-white/60"> Download CV <HiDownload/></Link>}
-                {personalData?.resume && <Link href={personalData.resume} className="bg-white p-4 text-gray-700 flex items-center gap-2 text-[1.35rem] rounded-full focus:scale-[1.15] hover:scale-[1.15] hover:text-gray-950 active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10 dark:text-white/60"> <FaGithubSquare/></Link>}
-                {personalData?.resume && <Link href={personalData.resume} className="bg-white p-4 text-gray-700 hover:text-gray-950 flex items-center gap-2 rounded-full focus:scale-[1.15] hover:scale-[1.15] active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10 dark:text-white/60"> <FaLinkedin/></Link>} 
+                {personalData?.resume && <Link href={personalData.resume} className="bg-white p-4 text-gray-700 hover:text-gray-950 flex items-center gap-2 rounded-full focus:scale-[1.15] hover:scale-[1.15] active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10 dark:text-white/60"> Download CV <HiDownload /></Link>}
+                {personalData?.resume && <Link href={personalData.resume} className="bg-white p-4 text-gray-700 flex items-center gap-2 text-[1.35rem] rounded-full focus:scale-[1.15] hover:scale-[1.15] hover:text-gray-950 active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10 dark:text-white/60"> <FaGithubSquare /></Link>}
+                {personalData?.resume && <Link href={personalData.resume} className="bg-white p-4 text-gray-700 hover:text-gray-950 flex items-center gap-2 rounded-full focus:scale-[1.15] hover:scale-[1.15] active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10 dark:text-white/60"> <FaLinkedin /></Link>}
             </motion.div>
         </section>
     );
